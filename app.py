@@ -36,7 +36,7 @@ def empty_period(period):
         return "2초과"
 
 
-def main(df, 채용기준년도):
+def main(df, 채용기준년도, selected_model):
     
     univ_grade = pd.read_excel("univ_grade.xlsx")
     merge_df = pd.merge(left=df, right=univ_grade, how='left', on='학교명')
@@ -241,14 +241,37 @@ def main(df, 채용기준년도):
     X = df1.values
     # print(X)
     
-    with open('best_model.sav','rb') as pickle_filename:
-        best_model = pickle.load(pickle_filename)
+    if selected_model == "LogisticRegression":
     
-    predicted = best_model.predict(X)
-    score = best_model.predict_proba(X)
+        with open('./models/best_model_logreg.sav','rb') as pickle_filename:
+            best_model = pickle.load(pickle_filename)
+        
+        predicted = best_model.predict(X)
+        score = best_model.predict_proba(X)
+        
+        st.markdown("1: pass확률")
+        score
+
+    elif selected_model == "GNB":
+        with open('./models/best_model_GNB.sav','rb') as pickle_filename:
+            best_model = pickle.load(pickle_filename)
+        
+        predicted = best_model.predict(X)
+        score = best_model.predict_proba(X)
+        
+        st.markdown("1: pass확률")
+        score
+
+    elif selected_model == "GBM":
+        with open('./models/best_model_GBM.sav','rb') as pickle_filename:
+            best_model = pickle.load(pickle_filename)
+        
+        predicted = best_model.predict(X)
+        score = best_model.predict_proba(X)
+        
+        st.markdown("1: pass확률")
+        score
     
-    st.markdown("1: pass확률")
-    score
 
 if __name__ == "__main__":
     
@@ -277,7 +300,7 @@ if __name__ == "__main__":
 
             
         with col4:
-            학부전공계열 = st.selectbox("학부전공계열", ["기계", "전기전자", "산업", "이공기타", "전산", "상경", "영어", "국문", "금속", "건축", "기타","법학", "서반아어", "신방", "어문", "인문기타", "재료", "조선해양", "중국어", "토목", "화공", "안전"])
+            학부전공계열 = st.selectbox("학부전공계열", ["기계", "전기전자", "산업", "조선해양", "이공기타", "전산", "상경", "영어", "국문", "금속", "건축", "기타","법학", "서반아어", "신방", "어문", "인문기타", "재료", "중국어", "토목", "화공", "안전"])
             학부전공 = st.selectbox("학부전공", 학부전공, disabled=True)
             최종학력 = st.selectbox("최종학력", ["학사", "석사"], disabled=True)
        
@@ -288,6 +311,7 @@ if __name__ == "__main__":
         with col6:
             취득학점 = st.selectbox("취득학점", [3.0, 3.5, 4.0, 4.3])
             만점기준 = st.selectbox("만점기준", [4.5, 4.0])
+            model_select = st.selectbox("모델선택", ["LogisticRegression", "GBM", "GNB"])
         
     data = {"name": name, "age": age, "sex": sex, "학교명": 학교명, "학부지역": 학부지역, "입학상태": 입학상태, "졸업상태": 졸업상태, "학부전공계열": 학부전공계열, "학부전공": 학부전공, 
             "최종학력": 최종학력, "학부개시": 학부개시, "학부종료": 학부종료, "취득학점": 취득학점, "만점기준": 만점기준}
@@ -299,7 +323,7 @@ if __name__ == "__main__":
         
        
     ##########################
-    main(df, 2023)
+    main(df, 2023, model_select)
 
 
 
