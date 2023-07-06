@@ -6,12 +6,14 @@ import datetime
 
 
 def ranging_age(age):
-    if age <= 28:
-        return "28이하"
-    elif age > 28 and age <= 30:
+    if age < 28:
+        return "28미만"
+    elif age >= 28 and age < 30:
         return "28to30"
+    elif age >= 30 and age < 32:
+        return "30to32"
     else:
-        return "30초과"
+        return "33이상"
     
 def ranging_score(score):
     if score < 77:
@@ -151,8 +153,9 @@ def main(df, 채용기준년도, selected_model):
             'encoder__grade2_5': 0.0,
             'encoder__grade2_6': 0.0,
             'encoder__grade2_7': 0.0,
-            'encoder__age_range_28이하': 0.0,
-            'encoder__age_range_30초과': 0.0,
+            'encoder__age_range_28미만': 0.0,
+            'encoder__age_range_30to32': 0.0,
+            'encoder__age_range_33이상': 0.0,
             'encoder__score_range_77미만': 0.0,
             'encoder__score_range_83이상': 0.0,
             'encoder__study_period_6.5초과': 0.0,
@@ -216,10 +219,12 @@ def main(df, 채용기준년도, selected_model):
     elif df['grade2'].values[0] == 7:
         data['encoder__grade2_7'] = 1 
         
-    if df['age_range'].values[0] == "28이하":
-        data['encoder__age_range_28이하'] = 1 
-    elif df['age_range'].values[0] == "30초과":
-        data['encoder__age_range_30초과'] = 1 
+    if df['age_range'].values[0] == "28미만":
+        data['encoder__age_range_28미만'] = 1 
+    elif df['age_range'].values[0] == "30to32":
+        data['encoder__age_range_30to32'] = 1 
+    elif df['age_range'].values[0] == "33이상":
+        data['encoder__age_range_33이상'] = 1         
         
     if df['score_range'].values[0] == "77미만":
         data['encoder__score_range_77미만'] = 1 
@@ -285,8 +290,7 @@ def main(df, 채용기준년도, selected_model):
             predicted
         with col002:
             st.markdown(":green[**Soft Label(확률)**]")
-            score
-    
+            score    
 
 if __name__ == "__main__":
     
@@ -302,8 +306,8 @@ if __name__ == "__main__":
         col1, col2, col3, col4, col5, col6 = st.columns(6)
         with col1:
             name = st.selectbox("성명", ["박보검"], disabled=True)
-            연령후보군 = [25, 28, 30, 32, 35, 40]
-            default_연령 = 연령후보군.index(28)
+            연령후보군 = [27, 29, 31, 33]
+            default_연령 = 연령후보군.index(29)
             age = st.selectbox("연령", 연령후보군, index=default_연령)
             sex = st.selectbox("성별", ["남성", "여성"])
             
