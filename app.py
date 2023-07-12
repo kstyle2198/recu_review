@@ -296,7 +296,7 @@ if __name__ == "__main__":
     
     st.set_page_config(layout="wide", page_title="AI_Copilot[HR]")
     st.markdown("#### :red[AI Copilot] Series - :blue[HR/Recruit]🍀")
-    st.markdown("### :red[채용 학습모델] 기반 :blue[서류전형 합격률 예측 플랫폼]")
+    st.markdown("### :red[채용 데이터 학습모델] 기반 :blue[서류전형 합격률 예측 플랫폼]")
     # st.markdown("---")
     
     ####################
