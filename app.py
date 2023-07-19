@@ -294,8 +294,8 @@ def main(df, 채용기준년도, selected_model):
 
 if __name__ == "__main__":
     
-    st.set_page_config(layout="wide", page_title="AI_Copilot[HR]")
-    st.markdown("#### :red[AI Copilot] Series - :blue[HR/Recruit]🍀")
+    st.set_page_config(layout="wide", page_title="AI_Insight[HR]")
+    st.markdown("#### :red[AI Insight] Series - :blue[HR/Recruit]🍀")
     st.markdown("### :green[채용 데이터 학습모델] 기반 :blue[서류전형 합격률 예측 플랫폼]")
     # st.markdown("---")
     
